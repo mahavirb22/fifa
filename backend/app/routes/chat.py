@@ -4,8 +4,6 @@ Rate-limited to 10 requests/minute per IP because each request may
 invoke the Gemini API (cost and quota implications).
 """
 
-from __future__ import annotations
-
 from fastapi import APIRouter, Depends, Request
 
 from app.advisor.gemini import get_fan_response

@@ -23,7 +23,7 @@ export function FanAssistant({ messages, loading, error, onSendMessage, onSugges
 
   // Auto-scroll to latest message
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView?.({ behavior: "smooth" });
   }, [messages]);
 
   const handleSubmit = (e: FormEvent) => {

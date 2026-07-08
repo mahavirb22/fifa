@@ -81,6 +81,22 @@ _DEFAULT_RESPONSE = {
 
 # Keyword → response map for fan queries
 _KEYWORD_RESPONSES: dict[str, dict[str, str]] = {
+    # Accessibility first (to avoid "eat" matching inside "seating" or similar)
+    "wheelchair": _ACCESSIBILITY_RESPONSE,
+    "accessible": _ACCESSIBILITY_RESPONSE,
+    "disability": _ACCESSIBILITY_RESPONSE,
+    "sensory": _ACCESSIBILITY_RESPONSE,
+    "elevator": _ACCESSIBILITY_RESPONSE,
+    "accesibilidad": _ACCESSIBILITY_RESPONSE,
+    "accessibilité": _ACCESSIBILITY_RESPONSE,
+    # Medical next
+    "medical": _MEDICAL_RESPONSE,
+    "doctor": _MEDICAL_RESPONSE,
+    "hurt": _MEDICAL_RESPONSE,
+    "emergency": _MEDICAL_RESPONSE,
+    "médico": _MEDICAL_RESPONSE,
+    "ambulance": _MEDICAL_RESPONSE,
+    # Food/Beverage
     "food": _FOOD_RESPONSE,
     "eat": _FOOD_RESPONSE,
     "drink": _FOOD_RESPONSE,
@@ -89,18 +105,13 @@ _KEYWORD_RESPONSES: dict[str, dict[str, str]] = {
     "comer": _FOOD_RESPONSE,
     "restaurant": _FOOD_RESPONSE,
     "nourriture": _FOOD_RESPONSE,
+    # Restrooms
     "restroom": _RESTROOM_RESPONSE,
     "bathroom": _RESTROOM_RESPONSE,
     "toilet": _RESTROOM_RESPONSE,
     "baño": _RESTROOM_RESPONSE,
     "toilette": _RESTROOM_RESPONSE,
-    "wheelchair": _ACCESSIBILITY_RESPONSE,
-    "accessible": _ACCESSIBILITY_RESPONSE,
-    "disability": _ACCESSIBILITY_RESPONSE,
-    "sensory": _ACCESSIBILITY_RESPONSE,
-    "elevator": _ACCESSIBILITY_RESPONSE,
-    "accesibilidad": _ACCESSIBILITY_RESPONSE,
-    "accessibilité": _ACCESSIBILITY_RESPONSE,
+    # Transit
     "train": _TRANSIT_RESPONSE,
     "transit": _TRANSIT_RESPONSE,
     "parking": _TRANSIT_RESPONSE,
@@ -108,12 +119,6 @@ _KEYWORD_RESPONSES: dict[str, dict[str, str]] = {
     "uber": _TRANSIT_RESPONSE,
     "rideshare": _TRANSIT_RESPONSE,
     "transporte": _TRANSIT_RESPONSE,
-    "medical": _MEDICAL_RESPONSE,
-    "doctor": _MEDICAL_RESPONSE,
-    "hurt": _MEDICAL_RESPONSE,
-    "emergency": _MEDICAL_RESPONSE,
-    "médico": _MEDICAL_RESPONSE,
-    "ambulance": _MEDICAL_RESPONSE,
 }
 
 

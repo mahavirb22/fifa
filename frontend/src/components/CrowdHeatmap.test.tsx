@@ -33,8 +33,8 @@ describe("CrowdHeatmap", () => {
 
   it("renders zone tiles with density status", () => {
     render(<CrowdHeatmap data={mockData} loading={false} />);
-    expect(screen.getByText("Gate A")).toBeTruthy();
-    expect(screen.getByText("Gate B")).toBeTruthy();
+    expect(screen.getAllByText("Gate A").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Gate B").length).toBeGreaterThan(0);
   });
 
   it("shows hotspot count", () => {

@@ -89,7 +89,8 @@ VENUE_ZONES: dict[str, StadiumZone] = {
         zone_type=ZoneType.CONCOURSE, capacity=8000, floor_level=2,
         has_elevator_access=True,
         adjacent_zones=("seating-upper-east", "seating-upper-west",
-                        "concession-upper", "restroom-upper"),
+                        "concession-upper", "restroom-upper",
+                        "concourse-lower-east", "concourse-lower-west"),
     ),
     # Seating sections — lower bowl
     "seating-lower-east": StadiumZone(
@@ -238,6 +239,19 @@ VENUE_ZONES: dict[str, StadiumZone] = {
 }
 
 
+# Build bidirectional adjacency map dynamically to guarantee graph connectivity
+ADJACENCY_MAP: dict[str, set[str]] = {}
+for zone_id, zone in VENUE_ZONES.items():
+    if zone_id not in ADJACENCY_MAP:
+        ADJACENCY_MAP[zone_id] = set()
+    for adj in zone.adjacent_zones:
+        if adj in VENUE_ZONES:
+            ADJACENCY_MAP[zone_id].add(adj)
+            if adj not in ADJACENCY_MAP:
+                ADJACENCY_MAP[adj] = set()
+            ADJACENCY_MAP[adj].add(zone_id)
+
+
 def get_zone(zone_id: str) -> StadiumZone | None:
     """Look up a zone by ID. Returns None if not found."""
     return VENUE_ZONES.get(zone_id)
@@ -250,10 +264,9 @@ def get_zones_by_type(zone_type: ZoneType) -> list[StadiumZone]:
 
 def get_adjacent_zones(zone_id: str) -> list[StadiumZone]:
     """Return zones adjacent to the given zone."""
-    zone = VENUE_ZONES.get(zone_id)
-    if zone is None:
+    if zone_id not in VENUE_ZONES:
         return []
-    return [VENUE_ZONES[adj] for adj in zone.adjacent_zones if adj in VENUE_ZONES]
+    return [VENUE_ZONES[adj] for adj in ADJACENCY_MAP.get(zone_id, set()) if adj in VENUE_ZONES]
 
 
 def get_accessible_route(from_zone: str, to_zone: str) -> list[str] | None:
@@ -278,8 +291,7 @@ def get_accessible_route(from_zone: str, to_zone: str) -> list[str] | None:
         if current in visited:
             continue
         visited.add(current)
-        zone = VENUE_ZONES[current]
-        for neighbor_id in zone.adjacent_zones:
+        for neighbor_id in ADJACENCY_MAP.get(current, set()):
             if neighbor_id in visited or neighbor_id not in VENUE_ZONES:
                 continue
             neighbor = VENUE_ZONES[neighbor_id]

@@ -5,8 +5,6 @@ The action logging endpoint is not rate-limited — staff need to log actions
 without delay during critical situations.
 """
 
-from __future__ import annotations
-
 from fastapi import APIRouter, Depends, Request
 
 from app.advisor.gemini import get_ops_recommendations

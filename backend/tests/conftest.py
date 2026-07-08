@@ -21,12 +21,15 @@ def _clear_caches():
     """Clear lru_cache singletons between tests."""
     from app.config import get_settings
     from app.deps import get_repository
+    from app.advisor.gemini import _get_gemini_client
 
     get_settings.cache_clear()
     get_repository.cache_clear()
+    _get_gemini_client.cache_clear()
     yield
     get_settings.cache_clear()
     get_repository.cache_clear()
+    _get_gemini_client.cache_clear()
 
 
 @pytest.fixture()

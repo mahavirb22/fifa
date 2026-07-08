@@ -45,3 +45,4 @@ Thumbs.db
 *.egg
 *.whl
 frontend/dist/
+blueprints/
