@@ -1,0 +1,60 @@
+[project]
+name = "matchday-command-center"
+version = "1.0.0"
+description = "GenAI-powered FIFA World Cup 2026 smart stadium operations platform"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = [
+    "--cov=app",
+    "--cov-report=term-missing",
+    "--cov-fail-under=90",
+    "-v",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 99
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "N",    # pep8-naming
+    "D",    # pydocstyle
+    "UP",   # pyupgrade
+    "ANN",  # flake8-annotations
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "SIM",  # flake8-simplify
+    "PL",   # pylint
+    "C90",  # mccabe complexity
+    "RUF",  # ruff-specific
+]
+ignore = [
+    "E501",   # line length — handled by formatter
+    "B008",   # function call in default arg — needed for Depends()
+    "D100",   # missing module docstring in tests — handled by per-file-ignores
+    "ANN101", # missing type annotation for self — deprecated
+    "ANN102", # missing type annotation for cls — deprecated
+]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["D", "ANN", "PLR2004"]
+
+[tool.mypy]
+strict = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["google.*", "slowapi.*", "cachetools.*"]
+ignore_missing_imports = true

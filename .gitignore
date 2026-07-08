@@ -1,0 +1,47 @@
+# ========================
+# Language artifacts
+# ========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+build/
+dist/
+node_modules/
+*.tsbuildinfo
+
+# ========================
+# Tool caches
+# ========================
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+coverage/
+htmlcov/
+.coverage
+
+# ========================
+# Environment & secrets
+# ========================
+.env
+.env.*
+!.env.example
+*-key.json
+service-account*.json
+
+# ========================
+# Editor & OS files
+# ========================
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ========================
+# Build artifacts
+# ========================
+*.egg
+*.whl
+frontend/dist/
