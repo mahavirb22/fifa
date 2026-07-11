@@ -6,7 +6,6 @@
 
 import { useState } from "react";
 import type { ZoneType } from "../lib/types";
-import { formatZoneName, formatZoneType } from "../lib/format";
 
 // Simplified zone list for fan-facing navigation
 const NAVIGABLE_ZONES = [
