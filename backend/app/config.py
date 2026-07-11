@@ -39,8 +39,8 @@ class Settings(BaseSettings):
     rate_limit_storage: str = "memory://"
 
     def get_cors_origins(self) -> list[str]:
-        """Parse comma-separated CORS origins into a list."""
-        return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
+        """Parse comma-separated CORS origins into a list, stripping trailing slashes."""
+        return [origin.strip().rstrip("/") for origin in self.cors_origins.split(",") if origin.strip()]
 
 
 @lru_cache(maxsize=1)
