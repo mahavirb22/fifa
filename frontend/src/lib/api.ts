@@ -10,7 +10,8 @@ import type {
   OpsRecommendation,
 } from "./types";
 
-const BASE = "/api";
+const API_URL = import.meta.env.VITE_API_URL || "";
+const BASE = `${API_URL}/api`;
 
 async function request<T>(url: string, options?: RequestInit): Promise<T> {
   const resp = await fetch(`${BASE}${url}`, {
