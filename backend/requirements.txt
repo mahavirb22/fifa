@@ -1,7 +1,7 @@
 # MatchDay Command Center — Backend Dependencies
 # Pinned to exact versions for reproducible builds.
 # For maximum supply-chain security, consider adding --require-hashes.
-fastapi==0.115.12
+fastapi==0.139.2
 uvicorn[standard]==0.34.3
 pydantic==2.11.4
 pydantic-settings==2.9.1
