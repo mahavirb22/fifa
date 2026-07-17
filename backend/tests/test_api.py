@@ -137,3 +137,23 @@ def test_security_headers_present(client):
     assert resp.headers.get("X-Content-Type-Options") == "nosniff"
     assert resp.headers.get("X-Frame-Options") == "DENY"
     assert "Content-Security-Policy" in resp.headers
+
+
+def test_body_size_limiter_rejects_oversized_body(client):
+    """POST bodies larger than 64 KB must be rejected with 413."""
+    oversized_body = {"message": "x" * 70_000, "language": "en", "device_id": "dev-1"}
+    resp = client.post("/api/chat", json=oversized_body)
+    assert resp.status_code == 413
+    assert resp.json()["detail"] == "Request body too large"
+
+
+def test_body_size_limiter_rejects_malformed_content_length(client):
+    """Non-numeric Content-Length headers must be rejected with 400."""
+    resp = client.post(
+        "/api/chat",
+        content=b'{"message":"hi"}',
+        headers={"Content-Type": "application/json", "Content-Length": "not-a-number"},
+    )
+    assert resp.status_code == 400
+    assert resp.json()["detail"] == "Invalid Content-Length header"
+

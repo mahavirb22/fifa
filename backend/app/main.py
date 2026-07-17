@@ -119,7 +119,13 @@ def create_app() -> FastAPI:
     # --- Body size limiter middleware ---
     @app.middleware("http")
     async def body_size_limiter(request: Request, call_next: object) -> Response:
-        """Reject oversized POST bodies before JSON parsing."""
+        """Reject oversized POST bodies before JSON parsing.
+
+        Two-layer check (defense in depth):
+        1. Fast path — check Content-Length header.
+        2. Trust-nothing path — stream actual bytes to catch clients
+           that omit or forge the Content-Length header.
+        """
         if request.method in ("POST", "PUT", "PATCH"):
             # Fast path: check Content-Length header
             content_length = request.headers.get("content-length")
@@ -135,6 +141,14 @@ def create_app() -> FastAPI:
                         status_code=400,
                         content={"detail": "Invalid Content-Length header"},
                     )
+
+            # Trust-nothing path: stream actual bytes regardless of header
+            body = await request.body()
+            if len(body) > _MAX_BODY_BYTES:
+                return JSONResponse(
+                    status_code=413,
+                    content={"detail": "Request body too large"},
+                )
 
         return await call_next(request)  # type: ignore[misc]
 
